@@ -15,3 +15,9 @@ router.get('/', async function(req, res, next) {
   }
 });
 
+/* Display the page to write blog content to */
+router.get('/write', function(req, res, next) {
+  return res.render('write-blog');
+});
+
+module.exports = router;
