@@ -1,0 +1,21 @@
+nav.sticky-top.navbar.navbar-expand-md.navbar-dark.bg-dark
+  a.navbar-brand(href='/') Get Blogged
+
+  button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
+    span.navbar-toggler-icon
+
+  #navbarSupportedContent.collapse.navbar-collapse
+    ul.navbar-nav.ml-auto
+
+      li.nav-item.align-self-center
+        a.nav-link(href='/')
+          | Read
+          span.sr-only (current)
+
+      li.nav-item.standout
+        if pathname!=='write'
+          a.nav-link(href='/write')
+            button.btn.btn-outline-info.outstand Write
+        else
+          a.nav-link(href='/write')
+            button.btn.btn-outline-info.outstand Publish

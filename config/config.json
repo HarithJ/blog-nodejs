@@ -1,7 +1,6 @@
 {
   "development": {
-    "dialect": "sqlite",
-    "storage": "dev.db"
+    "use_env_variable": "DB_CONNECTION_STRING"
   },
   "test": {
     "username": "root",

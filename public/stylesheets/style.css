@@ -1,8 +1,9 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+.ck-focused {
+  border: none !important;
+  box-shadow: none !important;
 }
 
-a {
-  color: #00B7FF;
+.outstand {
+  padding-top: 0px;
+  padding-bottom: 0px;
 }
