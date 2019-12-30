@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  .row.mt-5
+    .col-6.mx-auto.p-5.shadow.bg-white.rounded
+      h3.mb-3 Log In
+
+      form.needs-validation.mt-2(action='/users/login', method='post', novalidate)
+        .form-group
+          label(for='username') Username
+          input#username.form-control(type='text', name='username', required)
+          .invalid-feedback Please don't leave it blank
+
+        .form-group
+          label(for='password') Password
+          input#password.form-control(type='password', name='password', required)
+          .invalid-feedback Please don't leave it blank
+        button.btn.btn-primary.mt-2.w-100(type='submit') Log in
+
+      p.mt-4.text-center Don't have an account?
+        a(href='/users/register')  Create Account
+
+block scripts
+    script(src='/javascripts/formValidation.js')

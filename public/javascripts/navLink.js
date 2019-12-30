@@ -8,4 +8,14 @@ $(document).ready(() => {
 	if (window.location.pathname === '/') {
 		$('nav a:contains("Read")').parent( 'li' ).addClass( 'active' );
 	}
+
+	else if (window.location.pathname === '/users/login') {
+		$('nav a:contains("Login")').parent( 'li' ).addClass( 'active' );
+	}
+
+	else if (window.location.pathname === '/users/register') {
+		$('nav a:contains("Signup")').parent( 'li' ).addClass( 'active' );
+	}
+
+	$('#signupPassword').password({});
 })

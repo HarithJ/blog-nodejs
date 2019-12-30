@@ -1,0 +1,47 @@
+extends layout
+
+block content
+  .row.mt-5
+    .col-6.mx-auto.p-5.shadow.bg-white.rounded
+      h3.mb-3 Create Your Account
+      form.needs-validation(action='/users/register', method='post', novalidate)
+
+        .form-row
+          .col
+            .form-group
+              label(for='firstName') First Name
+              input#firstName.form-control(type='text', name='firstName', placeholder='First Name', required)
+              .valid-feedback Looks good!
+              .invalid-feedback Please don't leave it blank
+
+          .col
+            .form-group
+              label(for='lastName') Last Name
+              input#lastName.form-control(type='text', name='lastName', placeholder='Last Name', required)
+              .valid-feedback Looks good!
+              .invalid-feedback Please don't leave it blank
+
+        .form-group
+          label(for='username') Username
+          input#username.form-control(type='text', name='username', placeholder='Username', required)
+          .valid-feedback Looks good!
+          .invalid-feedback Please don't leave it blank
+
+        .form-group
+          label(for='email') Email
+          input#email.form-control(type='email', name='email', placeholder='Email', required)
+          .valid-feedback Looks good!
+          .invalid-feedback Please enter a valid email address
+
+        .form-group
+          label(for='password') Password
+          input#signupPassword.form-control(type='password', name='password', placeholder='Secret password', required)
+          .invalid-feedback Please don't leave it blank
+
+        button.btn.btn-success.mt-2.w-100(type='submit', ) Create Account
+
+      p.mt-4.text-center Already have an account?
+        a(href='/users/login')  Log in
+
+block scripts
+    script(src='/javascripts/formValidation.js')

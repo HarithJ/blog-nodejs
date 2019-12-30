@@ -4,6 +4,9 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+var session = require('express-session');
+var passport = require('passport');
+
 var usersRouter = require('./routes/users');
 var blogRouter = require('./routes/posts');
 
@@ -18,6 +21,22 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// express session middleware setup
+app.use(session({
+    secret: 'secret'
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use((req, res, next) => {
+  if(req.isAuthenticated()) {
+    res.locals.user = req.user;
+  }
+
+  next();
+});
 
 app.use('/', blogRouter);
 app.use('/users', usersRouter);

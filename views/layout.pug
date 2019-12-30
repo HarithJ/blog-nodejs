@@ -11,6 +11,11 @@ html(lang='en')
 
     link(rel='stylesheet', href='/stylesheets/style.css')
 
+    // Roboto fonts
+    link(href='https://fonts.googleapis.com/css?family=Roboto&display=swap', rel='stylesheet')
+
+    link(href='/stylesheets/password.min.css', rel='stylesheet')
+
     title= title
 
   body
@@ -29,5 +34,9 @@ html(lang='en')
     script(src='/javascripts/ckeditor.js')
     script(src='/javascripts/editor.js')
 
+    script(src='/javascripts/password.min.js')
+
     // navbar link
     script(src='/javascripts/navLink.js')
+
+    block scripts

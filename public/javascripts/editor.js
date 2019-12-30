@@ -1,17 +1,18 @@
 $(document).ready(() => {
   let editor;
   BalloonEditor
-              .create(document.querySelector( '#editor' ), {
-                title: {
-                  placeholder: 'Title'
-                }
-              })
-              .then(newEditor => {
-                editor = newEditor;
-              })
-              .catch(error => {
-                  console.error( error );
-              });
+    .create( document.querySelector( '#editor' ), {
+      title: {
+        placeholder: 'Title'
+      }
+    } )
+    .then( newEditor => {
+        console.log( newEditor );
+        editor = newEditor
+    } )
+    .catch( error => {
+        console.error( error );
+    } );
 
   $( '#publish' ).on('click', (e) => {
       e.preventDefault()
