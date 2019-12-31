@@ -1,8 +1,9 @@
 var express = require('express');
-var router = express.Router();
-
 const Entities = require('html-entities').AllHtmlEntities;
 
+const authOnly = require('../helpers/auth.js');
+
+var router = express.Router();
 const entities = new Entities();
 
 var { blog } = require('../models/index.js');
@@ -20,7 +21,7 @@ router.get('/', async function(req, res, next) {
 });
 
 /* Display the page to write blog content to */
-router.get('/write', (req, res, next) => {
+router.get('/write', authOnly, (req, res, next) => {
   return res.render('write-blog', {pathname: 'write'});
 });
 
