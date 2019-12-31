@@ -1,6 +1,9 @@
 extends layout
 
 block content
-  each post in posts
-    h1= post.title
-    p= post.description
+  if posts == ""
+    h1.text-center.mt-5 No posts to read, come back later ;)
+  else
+    each post in posts
+      h1= post.title
+      p= post.description
