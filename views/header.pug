@@ -1,36 +1,50 @@
-nav.sticky-top.navbar.navbar-expand-md.navbar-dark.bg-dark
-  a.navbar-brand(href='/') Typewriter
+nav.sticky-top.navbar.navbar-expand-md.navbar-light(style='background-color: white')
+  .container-fluid.mx-5
+    a.navbar-brand(href='/') Typewriter
 
-  button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
-    span.navbar-toggler-icon
+    button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
+      span.navbar-toggler-icon
 
-  #navbarSupportedContent.collapse.navbar-collapse
-    ul.navbar-nav.ml-auto
+    #navbarSupportedContent.collapse.navbar-collapse
+      ul.navbar-nav.ml-auto
 
-      li.nav-item.align-self-center
-        a.nav-link(href='/')
-          | Read
-          span.sr-only (current)
+        li.nav-item.align-self-center
+          a.nav-link.mr-2(href='/')
+            | Read
+            span.sr-only (current)
 
 
-      if user
-        li.nav-item.standout
-          if pathname!=='write'
-            a.nav-link(href='/write')
-              button.btn.btn-outline-info.outstand Write
-          else
-            a.nav-link(href='#')
-              button#publish.btn.btn-outline-info.outstand Publish
+        if user
+          li.nav-item.standout
+            if pathname=='write'
+              a.nav-link(href='#')
+                button#publish.btn.btn-outline-info.outstand Publish
 
-        li.nav-item
-          a.nav-link(href='/users/logout')
-            | Logout
+          li.nav-item.dropdown
+            a#navbarDropdown.nav-link.dropdown(href='#', role='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+              svg(xmlns='http://www.w3.org/2000/svg', width='28', height='28', viewBox='0 0 24 24')
+                path(d='M0 0h24v24H0z', fill='none')
+                path(d='M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z')
+            .dropdown-menu(aria-labelledby='navbarDropdown')
+              a.dropdown-item(href='#')
+                strong= user.firstName + ' ' + user.lastName
+              a.dropdown-item(href='#')= '@' + user.username
 
-      else
-        li.nav-item
-          a.nav-link(href='/users/login')
-            | Login
+              .dropdown-divider
+              a.dropdown-item(href='/write') Write
+              a.dropdown-item(href='#') My Stories
 
-        li.nav-item
-          a.nav-link(href='/users/register')
-            | Signup
+              .dropdown-divider
+              a.dropdown-item(href='#') Profile
+              a.dropdown-item(href='#') Settings
+              a.dropdown-item(href='/users/logout') Logout
+
+        else
+          li.nav-item.align-self-center
+            a.nav-link.mr-2(href='/users/login')
+              | Sign in
+
+          li.nav-item
+            a.nav-link(href='/users/register')
+              button.btn.btn-success.px-4
+                | Get started
