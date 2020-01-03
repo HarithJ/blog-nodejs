@@ -35,4 +35,25 @@ router.post('/write', async (req, res, next) => {
   res.send({redirect: '/'});
 })
 
+/* GET one blog post */
+router.get('/:blogTitle', async function(req, res, next) {
+  try {
+    const post = await blog.findOne({
+      where: { title: req.params.blogTitle },
+      raw: true
+    });
+
+    if (!post) {
+      error = new Error('Post not found');
+      error.status = 404;
+      return next(error);
+    }
+
+    return res.render('post', { post });
+  }
+  catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 module.exports = router;

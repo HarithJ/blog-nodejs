@@ -4,6 +4,8 @@ block content
   if posts == ""
     h1.text-center.mt-5 No posts to read, come back later ;)
   else
+    .mt-2
     each post in posts
-      h1= post.title
-      p= post.description
+      a.post.p-3(href=`/${post.title}`)
+        h1= post.title
+        p= post.description
