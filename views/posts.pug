@@ -5,7 +5,10 @@ block content
     h1.text-center.mt-5 No posts to read, come back later ;)
   else
     .mt-2
-    each post in posts
-      a.each-post.p-3(href=`/post/${post.title}`)
-        h1= post.title
-        p= post.description
+    .card-columns
+      each post in posts
+        a.each-post(href=`/post/${post.title}`)
+          .card
+            .card-body
+              h3.card-title= post.title
+              .card-text= post.description
