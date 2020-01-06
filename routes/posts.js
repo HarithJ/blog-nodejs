@@ -33,7 +33,7 @@ router.post('/write', async (req, res, next) => {
       description: req.body.description,
     });
 
-    await req.user.setPosts(post);
+    await req.user.addPosts(post);
 
     res.send({redirect: '/'});
   }
