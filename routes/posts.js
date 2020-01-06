@@ -26,17 +26,24 @@ router.get('/write', authOnly, (req, res, next) => {
 });
 
 router.post('/write', async (req, res, next) => {
-  await blog.create({
-    title: req.body.title,
-    body: req.body.blogPost,
-    description: req.body.description,
-  });
+  try {
+    const post = await blog.create({
+      title: req.body.title,
+      body: req.body.blogPost,
+      description: req.body.description,
+    });
 
-  res.send({redirect: '/'});
+    await req.user.setPosts(post);
+
+    res.send({redirect: '/'});
+  }
+  catch (error) {
+    res.status(500).send(error);
+  }
 })
 
 /* GET one blog post */
-router.get('/:blogTitle', async function(req, res, next) {
+router.get('/post/:blogTitle', async function(req, res, next) {
   try {
     const post = await blog.findOne({
       where: { title: req.params.blogTitle },
@@ -50,6 +57,18 @@ router.get('/:blogTitle', async function(req, res, next) {
     }
 
     return res.render('post', { post });
+  }
+  catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+/* GET blogposts of the current user */
+router.get('/myposts', authOnly, async (req, res, next) => {
+  try {
+    const posts = await req.user.getPosts();
+
+    return res.render('posts', { posts });
   }
   catch (error) {
     res.status(500).send(error);
