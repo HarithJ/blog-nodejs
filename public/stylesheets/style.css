@@ -1,5 +1,5 @@
 body {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .ck-focused {
@@ -28,23 +28,23 @@ body {
   font-size: 0.8rem !important;
 }
 
-.post {
+.each-post {
   color: inherit;
   display: block;
 }
 
-.post:hover {
+.each-post:hover {
   color: inherit;
   text-decoration: none;
   background-color: #eeeeee;
 }
 
-.post:active {
+.each-post:active {
   color: inherit;
   text-decoration: none;
 }
 
-.post:focus {
+.each-post:focus {
   outline: none;
 }
 
@@ -59,4 +59,8 @@ body {
 .show>.dropdown-menu {
   left: 50%;
   transform: translateX(-50%);
+}
+
+.post {
+  font-size: 1.2rem;
 }

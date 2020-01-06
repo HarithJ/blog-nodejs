@@ -6,6 +6,6 @@ block content
   else
     .mt-2
     each post in posts
-      a.post.p-3(href=`/${post.title}`)
+      a.each-post.p-3(href=`/post/${post.title}`)
         h1= post.title
         p= post.description
