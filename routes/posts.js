@@ -68,7 +68,7 @@ router.get('/myposts', authOnly, async (req, res, next) => {
   try {
     const posts = await req.user.getPosts();
 
-    return res.render('posts', { posts });
+    return res.render('user-posts', { posts });
   }
   catch (error) {
     res.status(500).send(error);

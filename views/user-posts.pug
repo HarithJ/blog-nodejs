@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  if posts == ""
+    .row.mt-5
+      .col-auto.m-auto
+        h1 You don't have any posts
+    .row.mt-4
+      .col-auto.m-auto
+        a.m-auto(href='/write')
+          button.btn.btn-outline-primary Write One Now
+  else
+    .row.mt-5
+      .col-auto.mr-auto
+        h1 Your Posts
+      .col-auto
+        a(href='/write')
+          button.btn.btn-outline-primary Write Post
+
+    .row.bbl.mt-4
+      .col-auto
+        a(href='#') Drafts
+      .col-auto
+        a(href='#') Published
+
+    each post in posts
+      .row.bbl.pt-3.pb-1
+        .col-auto
+          h3= post.title
+          p= post.description
