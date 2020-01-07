@@ -2,6 +2,10 @@ body {
   font-family: 'Montserrat', sans-serif;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+}
+
 .ck-focused {
   border: none !important;
   box-shadow: none !important;
