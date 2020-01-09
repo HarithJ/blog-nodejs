@@ -22,7 +22,7 @@ router.get('/', async function(req, res, next) {
 
 /* Display the page to write blog content to */
 router.get('/write', authOnly, (req, res, next) => {
-  return res.render('write-blog', {pathname: 'write'});
+  return res.render('write-or-edit-post', {pathname: 'write'});
 });
 
 router.post('/write', async (req, res, next) => {
@@ -57,6 +57,48 @@ router.get('/post/:blogTitle', async function(req, res, next) {
     }
 
     return res.render('post', { post });
+  }
+  catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+/* GET blog post for editing */
+router.get('/post/edit/:blogTitle', async function(req, res, next) {
+  try {
+    const post = await blog.findOne({
+      where: { title: req.params.blogTitle },
+      raw: true
+    });
+
+    if (!post) {
+      error = new Error('Post not found');
+      error.status = 404;
+      return next(error);
+    }
+
+    return res.render('write-or-edit-post', { post: post, pathname: "edit" });
+  }
+  catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+/* Save edited blog post */
+router.put('/post/edit/:blogPrevTitle', async (req, res, next) => {
+  try {
+    const post = await blog.update(
+      {
+        title: req.body.newTitle,
+        body: req.body.blogPost,
+        description: req.body.description,
+      },
+      {
+        where: { title: req.params.blogPrevTitle }
+      }
+    );
+
+    return res.send({redirect: '/'});
   }
   catch (error) {
     res.status(500).send(error);

@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  .row
+    .col-auto
+      if post
+        #editor !{post.body}
+      else
+        #editor

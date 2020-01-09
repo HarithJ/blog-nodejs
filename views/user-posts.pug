@@ -25,6 +25,12 @@ block content
 
     each post in posts
       .row.bbl.pt-3.pb-1
-        .col-auto
+        .col-10.mr-auto
           h3= post.title
           p= post.description
+        .col-auto
+          a(href=`/post/${post.title}`) View
+          br
+          a(href=`/post/edit/${post.title}`) Edit
+          br
+          a(href="#") Delete
