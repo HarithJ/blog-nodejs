@@ -52,7 +52,7 @@ passport.use(new LocalStrategy(
     }
 
     // if user exists, check if the password is correct
-    const isAuthenticated = await checkPassword(user.password, password)
+    const isAuthenticated = await checkPassword(password, user.password)
 
     // if user is authenticated, then return the callback function with the user
     if (isAuthenticated) {
