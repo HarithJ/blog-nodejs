@@ -7,7 +7,7 @@ var logger = require('morgan');
 var session = require('express-session');
 var passport = require('passport');
 
-var usersRouter = require('./routes/users');
+var authRouter = require('./routes/auth');
 var blogRouter = require('./routes/posts');
 
 var app = express();
@@ -39,7 +39,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/', blogRouter);
-app.use('/users', usersRouter);
+app.use('/auth', authRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
