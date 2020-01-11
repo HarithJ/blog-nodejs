@@ -14,6 +14,7 @@ $(document).ready(() => {
         console.error( error );
     } );
 
+  const UrlOrigin = window.location.origin;
   $( '#publish' ).on('click', (e) => {
       e.preventDefault()
 
@@ -27,7 +28,7 @@ $(document).ready(() => {
         editorData.description += '...'
       }
 
-      const url = 'http://localhost:3000/write/'
+      const url = `${UrlOrigin}/write/`
 
       $.post(url, editorData, (data, status) => {
         if (data.redirect) {
@@ -56,7 +57,7 @@ $(document).ready(() => {
         editorData.description += '...'
       }
 
-      const url = `http://localhost:3000/posts/${prevTitle}/edit`
+      const url = `${UrlOrigin}/posts/${prevTitle}/edit`
 
       $.ajax({
         url: url,
