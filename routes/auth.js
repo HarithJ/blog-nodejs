@@ -4,7 +4,6 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
 const { User } = require('../models/index.js');
-const authOnly = require('../helpers/auth.js');
 
 const router = express.Router();
 
@@ -12,7 +11,8 @@ const router = express.Router();
 // recommended: 12
 const saltRounds = 12;
 
-async function checkPassword(actualPassword, inputPassword) {
+/* function to check if the password is correct */
+async function checkPassword(inputPassword, actualPassword) {
   const match = await bcrypt.compare(inputPassword, actualPassword);
   if(match) {
     return true;
@@ -35,14 +35,16 @@ passport.deserializeUser(async (id, cb) => {
   }
 });
 
+/* Middleware that gets executed when a user signs in */
 passport.use(new LocalStrategy(
   async (username, password, cb) => {
+    // check if the user exists with the given username
     const user = await User.findOne({
       raw: true,
       where: {
         username: username
       }
-    })
+    });
 
     // if user does not exists in db
     if (!user) {
@@ -50,11 +52,13 @@ passport.use(new LocalStrategy(
     }
 
     // if user exists, check if the password is correct
-    const isAuthenticated = await checkPassword(user.password, password)
+    const isAuthenticated = await checkPassword(password, user.password)
 
+    // if user is authenticated, then return the callback function with the user
     if (isAuthenticated) {
       return cb(null, user);
     }
+    // else return false instead of a user
     else {
       return cb(null, false);
     }
@@ -64,32 +68,38 @@ passport.use(new LocalStrategy(
 
 /* Route to login page */
 router.get('/login', function(req, res, next) {
+  // render login template
   res.render('login');
 });
 
 /* Handle login form submission */
 router.post('/login',
+  // call passport's local authentication strategy
   passport.authenticate('local', { successRedirect: '/',
-                                   failureRedirect: '/users/login'})
+                                   failureRedirect: '/auth/login'})
 );
 
 /* Route to logout page */
 router.get('/logout', function(req, res, next) {
+  // logout the user using passport's functionality
   req.logout();
+
+  // redirect the user to index page
   res.redirect('/');
 });
 
 /* Route to register page */
 router.get('/register', function(req, res, next) {
+  // render sign in template
   res.render('register');
 });
 
 /* Handle user registerion */
 router.post('/register', async (req, res, next) => {
+  // hash user's password
   const passwordHash = await bcrypt.hash(req.body.password, saltRounds);
 
-  console.log(req.body.firstName);
-
+  // save the user in the db
   User.create({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
@@ -98,11 +108,8 @@ router.post('/register', async (req, res, next) => {
     password: passwordHash
   });
 
-  res.redirect('/users/login');
-});
-
-router.get('/hello', authOnly, (req, res, next) => {
-  res.send(req.user);
+  // redirect user to the login page
+  res.redirect('/auth/login');
 });
 
 module.exports = router;

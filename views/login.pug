@@ -5,7 +5,7 @@ block content
     .col-6.mx-auto.p-5.shadow.bg-white.rounded
       h3.mb-3 Log In
 
-      form.needs-validation.mt-2(action='/users/login', method='post', novalidate)
+      form.needs-validation.mt-2(action='/auth/login', method='post', novalidate)
         .form-group
           label(for='username') Username
           input#username.form-control(type='text', name='username', required)
@@ -18,7 +18,7 @@ block content
         button.btn.btn-primary.mt-2.w-100(type='submit') Log in
 
       p.mt-4.text-center Don't have an account?
-        a(href='/users/register')  Create Account
+        a(href='/auth/register')  Create Account
 
 block scripts
     script(src='/javascripts/formValidation.js')

@@ -7,7 +7,7 @@ block content
     .mt-2
     .card-columns
       each post in posts
-        a.each-post(href=`/post/${post.title}`)
+        a.each-post(href=`/posts/${post.title}`)
           .card
             .card-body
               h3.card-title= post.title

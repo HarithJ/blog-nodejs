@@ -14,6 +14,7 @@ $(document).ready(() => {
         console.error( error );
     } );
 
+  const UrlOrigin = window.location.origin;
   $( '#publish' ).on('click', (e) => {
       e.preventDefault()
 
@@ -27,7 +28,7 @@ $(document).ready(() => {
         editorData.description += '...'
       }
 
-      const url = 'http://localhost:3000/write/'
+      const url = `${UrlOrigin}/write/`
 
       $.post(url, editorData, (data, status) => {
         if (data.redirect) {
@@ -36,9 +37,11 @@ $(document).ready(() => {
       });
   });
 
-  const pathname = new RegExp('^\/post\/edit\/.+');
+  const pathname = new RegExp('^\/posts\/.+\/edit');
   let prevTitle = '';
+  console.log(window.location.pathname);
   if (pathname.test(window.location.pathname)) {
+    console.log('test passed');
     prevTitle = $('h1')[0].innerText;
   }
   $( '#save-and-publish' ).on('click', (e) => {
@@ -54,7 +57,7 @@ $(document).ready(() => {
         editorData.description += '...'
       }
 
-      const url = `http://localhost:3000/post/edit/${prevTitle}`
+      const url = `${UrlOrigin}/posts/${prevTitle}/edit`
 
       $.ajax({
         url: url,
