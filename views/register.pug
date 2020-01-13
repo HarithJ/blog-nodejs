@@ -44,4 +44,11 @@ block content
         a(href='/auth/login')  Log in
 
 block scripts
+    // check password's strength
+    script(src='/javascripts/password.min.js')
+
     script(src='/javascripts/formValidation.js')
+
+    // enable checking of password's strength on password's input field
+    script.
+      $('#signupPassword').password({});

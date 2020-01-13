@@ -39,11 +39,11 @@ $(document).ready(() => {
 
   const pathname = new RegExp('^\/posts\/.+\/edit');
   let prevTitle = '';
-  console.log(window.location.pathname);
+
   if (pathname.test(window.location.pathname)) {
-    console.log('test passed');
     prevTitle = $('h1')[0].innerText;
   }
+  
   $( '#save-and-publish' ).on('click', (e) => {
       e.preventDefault()
 
