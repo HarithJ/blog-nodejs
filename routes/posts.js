@@ -125,6 +125,22 @@ router.put('/posts/:blogPrevTitle/edit', async (req, res, next) => {
   }
 });
 
+/* Delete a post */
+router.delete('/posts/:blogPrevTitle', async (req, res, next) => {
+  try {
+    await blog.destroy(
+      {
+        where: { title: req.params.blogPrevTitle }
+      }
+    );
+
+    return res.send({redirect: '/me/posts'});
+  }
+  catch(error) {
+    res.status(500).send(error);
+  }
+});
+
 /* GET blogposts of the current user */
 router.get('/me/posts', authOnly, async (req, res, next) => {
   try {

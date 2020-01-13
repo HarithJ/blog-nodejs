@@ -1,0 +1,15 @@
+// Modal
+#delete-confirmation-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='deleteConfirmatioModal', aria-hidden='true')
+  .modal-dialog(role='document')
+    .modal-content
+      .modal-header
+        h5#exampleModalLabel.modal-title Delete
+        button.close(type='button', data-dismiss='modal', aria-label='Close')
+          span(aria-hidden='true') ×
+
+      .modal-body
+        | Deleted stories are gone forever. Are you sure?
+
+      .modal-footer
+        button.btn.btn-outline-primary(type='button', data-dismiss='modal') Cancel
+        button#deletion-confirmed.btn.btn-outline-danger(type='button') Delete
