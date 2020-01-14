@@ -126,11 +126,14 @@ router.put('/posts/:blogPrevTitle/edit', async (req, res, next) => {
 });
 
 /* Delete a post */
-router.delete('/posts/:blogPrevTitle', async (req, res, next) => {
+router.delete('/posts/:blogPrevTitle', authOnly, async (req, res, next) => {
   try {
     await blog.destroy(
       {
-        where: { title: req.params.blogPrevTitle }
+        where: {
+          title: req.params.blogPrevTitle,
+          UserId: req.user.id
+        }
       }
     );
 
