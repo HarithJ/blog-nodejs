@@ -4,7 +4,7 @@ block content
   if posts == ""
     h1.text-center.mt-5 No posts to read, come back later ;)
   else
-    .mt-2
+    .mt-5
     .card-columns
       each post in posts
         a.each-post(href=`/posts/${post.title}`)
