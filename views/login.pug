@@ -1,6 +1,13 @@
 extends layout
 
 block content
+  if alertMsg
+    .row.mt-3
+      .col-12
+        .alert.alert-danger.alert-dismissible.fade.show.text-center(role='alert')= alertMsg
+           button.close(type='button', data-dismiss='alert', aria-label='Close')
+            span(aria-hidden='true') ×
+
   .row.mt-5
     .col-6.mx-auto.p-5.shadow.bg-white.rounded
       h3.mb-3 Log In

@@ -69,15 +69,30 @@ passport.use(new LocalStrategy(
 /* Route to login page */
 router.get('/login', function(req, res, next) {
   // render login template
+
   res.render('login');
 });
 
 /* Handle login form submission */
-router.post('/login',
-  // call passport's local authentication strategy
-  passport.authenticate('local', { successRedirect: '/',
-                                   failureRedirect: '/auth/login'})
-);
+router.post('/login', (req, res, next) => {
+  passport.authenticate('local', (err, user, info) => {
+    // if error occured
+    if (err) { return next(err); }
+
+    // if authentication failed, redirect the user to login
+    if (!user) {
+      const alertMsg = "The username or password you have entered is invalid."
+      return res.render('login', { alertMsg });
+    }
+
+    // authentication passed, login the user
+    req.login(user, (err) => {
+      if (err) { return next(err); }
+      return res.redirect('/');
+    });
+
+  })(req, res, next);
+});
 
 /* Route to logout page */
 router.get('/logout', function(req, res, next) {
