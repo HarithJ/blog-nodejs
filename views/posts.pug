@@ -7,7 +7,7 @@ block content
     .mt-5
     .card-columns
       each post in posts
-        a.each-post(href=`/posts/${post.title}`)
+        a.each-post(href=`/posts/${post.title}-${post.uuid}`)
           .card
             .card-body
               h3.card-title= post.title

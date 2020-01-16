@@ -9,6 +9,16 @@ const entities = new Entities();
 
 var { blog } = require('../models/index.js');
 
+/* This middleware gets post's UUID from "blogPostUrl" param
+    "blogPostUrl" param is made up of post's title and UUID */
+function getPostUuid(req, res, next) {
+  const uuidRegExp = /[0-9A-F]{8}-[0-9A-F]{4}-4[0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i
+  const uuid = req.params.blogPostUrl.match(uuidRegExp)[0];
+
+  res.locals.postUuid = uuid
+  next();
+}
+
 /* GET all blog posts */
 router.get('/', async function(req, res, next) {
   try {
@@ -50,11 +60,15 @@ router.post('/write', authOnly, async (req, res, next) => {
 });
 
 /* GET one blog post */
-router.get('/posts/:blogTitle', async function(req, res, next) {
+router.get('/posts/:blogPostUrl', getPostUuid, async function(req, res, next) {
   try {
-    // fetch one blog posts from the db according to the title
+    // "blogPostUrl" param is made up of post's title and UUID
+    // get post's UUID from "blogPostUrl" param
+    const postUuid = res.locals.postUuid;
+
+    // fetch one blog posts from the db according to the UUID
     const post = await blog.findOne({
-      where: { title: req.params.blogTitle },
+      where: { uuid: postUuid },
       raw: true
     });
 
@@ -74,12 +88,14 @@ router.get('/posts/:blogTitle', async function(req, res, next) {
 });
 
 /* GET blog post for editing */
-router.get('/posts/:blogTitle/edit', async function(req, res, next) {
+router.get('/posts/:blogPostUrl/edit', getPostUuid, async function(req, res, next) {
   try {
-    // get post of the currently logged in user matching the blogTitle
-    // he wants to edit. getPosts returns an array of posts.
+    const postUuid = res.locals.postUuid;
+
+    // get post of the currently logged in user matching the post's UUID.
+    // "getPosts" returns an array of posts.
     let post = await req.user.getPosts({
-      where: { title: req.params.blogTitle },
+      where: { uuid: postUuid },
       raw: true
     });
 
@@ -103,17 +119,19 @@ router.get('/posts/:blogTitle/edit', async function(req, res, next) {
 });
 
 /* Save edited blog post */
-router.put('/posts/:blogPrevTitle/edit', async (req, res, next) => {
+router.put('/posts/:blogPostUrl/edit', getPostUuid, async (req, res, next) => {
   try {
+    const postUuid = res.locals.postUuid;
+
     // update post in the db with the new changes
     const post = await blog.update(
       {
-        title: req.body.newTitle,
+        title: req.body.title,
         body: req.body.blogPost,
         description: req.body.description,
       },
       {
-        where: { title: req.params.blogPrevTitle }
+        where: { uuid: postUuid }
       }
     );
 
@@ -126,12 +144,14 @@ router.put('/posts/:blogPrevTitle/edit', async (req, res, next) => {
 });
 
 /* Delete a post */
-router.delete('/posts/:blogPrevTitle', authOnly, async (req, res, next) => {
+router.delete('/posts/:blogPostUrl', authOnly, getPostUuid, async (req, res, next) => {
   try {
+    const postUuid = res.locals.postUuid;
+
     await blog.destroy(
       {
         where: {
-          title: req.params.blogPrevTitle,
+          uuid: postUuid,
           UserId: req.user.id
         }
       }

@@ -26,14 +26,14 @@ block content
     each post in posts
       .row.bbl.pt-3.pb-1
         .col-10.mr-auto
-          a.each-post(href=`/posts/${post.title}`)
+          a.each-post(href=`/posts/${post.title}-${post.uuid}`)
             h3= post.title
             p= post.description
         .col-auto
-          a(href=`/posts/${post.title}`) View
+          a(href=`/posts/${post.title}-${post.uuid}`) View
           br
-          a(href=`/posts/${post.title}/edit`) Edit
+          a(href=`/posts/${post.title}-${post.uuid}/edit`) Edit
           br
-          a.delete-post(href=`/posts/${post.title}`) Delete
+          a.delete-post(href=`/posts/${post.title}-${post.uuid}`) Delete
 
   include delete-confirmation-modal
