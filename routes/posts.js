@@ -19,11 +19,14 @@ function getPostUuid(req, res, next) {
   next();
 }
 
-/* GET all blog posts */
+/* GET all published blog posts */
 router.get('/', async function(req, res, next) {
   try {
     // fetch all blog posts from the db
-    const posts = await blog.findAll({ raw: true });
+    const posts = await blog.findAll({
+      where: { isPublished: true },
+      raw: true
+    });
 
     // render template to display all blog posts
     return res.render('posts', { posts });
@@ -46,13 +49,14 @@ router.post('/write', authOnly, async (req, res, next) => {
       title: req.body.title,
       body: req.body.blogPost,
       description: req.body.description,
+      isPublished: req.body.publish
     });
 
     // link the blog post with the logged in user
     await req.user.addPosts(post);
 
     // redirect the user to the route that displays their posts
-    res.send({redirect: '/me/posts'});
+    res.send({redirect: '/me/posts/published', postUuid: post.dataValues.uuid});
   }
   catch (error) {
     res.status(500).send(error);
@@ -129,6 +133,7 @@ router.put('/posts/:blogPostUrl/edit', getPostUuid, async (req, res, next) => {
         title: req.body.title,
         body: req.body.blogPost,
         description: req.body.description,
+        isPublished: req.body.publish,
       },
       {
         where: { uuid: postUuid }
@@ -136,7 +141,7 @@ router.put('/posts/:blogPostUrl/edit', getPostUuid, async (req, res, next) => {
     );
 
     // redirect the user to the route that displays their posts
-    return res.send({redirect: '/me/posts'});
+    return res.send({redirect: '/me/posts/published'});
   }
   catch (error) {
     res.status(500).send(error);
@@ -157,7 +162,7 @@ router.delete('/posts/:blogPostUrl', authOnly, getPostUuid, async (req, res, nex
       }
     );
 
-    return res.send({redirect: '/me/posts'});
+    return res.send({redirect: '/me/posts/published'});
   }
   catch(error) {
     res.status(500).send(error);
@@ -165,10 +170,28 @@ router.delete('/posts/:blogPostUrl', authOnly, getPostUuid, async (req, res, nex
 });
 
 /* GET blogposts of the current user */
-router.get('/me/posts', authOnly, async (req, res, next) => {
+router.get('/me/posts/published', authOnly, async (req, res, next) => {
   try {
     // get all the posts of the currently logged in user
-    const posts = await req.user.getPosts();
+    const posts = await req.user.getPosts({
+      where: { isPublished: true }
+    });
+
+    // render the template that displays the posts
+    return res.render('user-posts', { posts });
+  }
+  catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+/* GET drafts of the current user */
+router.get('/me/posts/drafts', authOnly, async (req, res, next) => {
+  try {
+    // get all the posts of the currently logged in user
+    const posts = await req.user.getPosts({
+      where: { isPublished: false }
+    });
 
     // render the template that displays the posts
     return res.render('user-posts', { posts });

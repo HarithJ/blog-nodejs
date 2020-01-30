@@ -2,6 +2,9 @@ nav.sticky-top.navbar.navbar-expand-md.navbar-light.shadow(style='background-col
   .container-fluid.mx-5
     a.navbar-brand(href='/') Typewriter
 
+    if pathname=='write' || pathname=='edit'
+      span#editor-status.navbar-text
+
     button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
       span.navbar-toggler-icon
 
@@ -36,7 +39,7 @@ nav.sticky-top.navbar.navbar-expand-md.navbar-light.shadow(style='background-col
 
               .dropdown-divider
               a.dropdown-item(href='/write') Write
-              a.dropdown-item(href='/me/posts') My Stories
+              a.dropdown-item(href='/me/posts/published') My Stories
 
               .dropdown-divider
               a.dropdown-item(href='#') Profile
